@@ -1,0 +1,142 @@
+{{ define "surveyReport" }}
+{{ template "header" }}
+{{ template "menu" .}}
+
+{{$questionnaire := .Data.Questionnaire}}
+{{$evaluation := .Data.Evaluations}}
+{{$evaluationNumber := len .Data.Evaluations}}
+
+<div class="row my-3">
+    <div class="col-sm"><h2>{{$questionnaire.Title}}</h2></div>
+</div>
+<p class="justifyText fst-italic fs-6">{{$questionnaire.Description}}</p>
+
+<div class="row my-3">
+    <div class="col-sm"><h2>Participants</h2></div>
+</div>
+<p class="justifyText fst-italic fs-6">This survey has been realized anonymously by {{$evaluationNumber}} participants.</p>
+
+<!-- Loop over all questions -->
+{{$i :=1}}
+{{$j :=0}}
+{{$score:=0}}
+{{$total:=0}}
+{{range $questionnaire.Questionnaire}}
+        <div class="row my-3">
+            <div class="col-sm"><h2>Question {{$i}}</h2></div>
+        </div>
+        <div class="row my-3">
+            <div class="col-sm justifyText fst-italic fs-6">{{.Story}}</div>
+        </div>
+        <div class="row my-3">
+            <div class="col-sm"><h4>{{.Label}}</h4></div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm">
+                <!-- Case checkboxes -->
+                {{if eq .Type "1"}}
+                    {{range .Answers}}
+                        {{$a := .Label}}
+                        {{$c := .Comment}}
+                        {{$s := .Score}}
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-check">
+                                    <input class="form-check-input checkboxes" type="checkbox" name="answerLabel{{$i}}" id="answerLabel{{$i}}" value="{{$a}}" disabled />
+                                    <label class="form-check-label" for="answerLabel{{$i}}">{{$a}}</label>
+                                </div>
+                            </div>
+                            <div class="col-sm text-end">
+                                {{$numberAnswered := 0}}
+                                {{range $evaluation}}
+                                    {{$answered:= index .Answers $j}}
+                                    {{ if isInclude $a $answered.Response }}
+                                        {{$numberAnswered = sum 1 $numberAnswered}}           
+                                    {{end}}
+                                {{end}}
+                                {{$numberAnswered}}/{{$evaluationNumber}} <span class="fw-bolder fst-italic fs-6"><small><small><small> ({{percentage $numberAnswered $evaluationNumber}}%)</small></small></small></span>
+                            </div>
+                        </div>          
+                    {{end}}
+                {{end}}
+
+                <!-- Case radios -->
+                {{if eq .Type "2"}}
+                    {{range .Answers}}
+                        {{$a := .Label}}
+                        {{$c := .Comment}}
+                        {{$s := .Score}}
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="form-check">
+                                    <input class="form-check-input radios" type="radio" name="answerLabel{{$i}}" id="answerLabel{{$i}}" value="{{$a}}" disabled />
+                                    <label class="form-check-label" for="answerLabel{{$i}}">{{$a}}</label>
+                                </div>
+                            </div>
+                            <div class="col-sm text-end">
+                                {{$numberAnswered := 0}}
+                                {{range $evaluation}}
+                                    {{$answered:= index .Answers $j}}
+                                    {{ if isInclude $a $answered.Response }}
+                                        {{$numberAnswered = sum 1 $numberAnswered}}           
+                                    {{end}}
+                                {{end}}
+                                {{$numberAnswered}}/{{$evaluationNumber}} <span class="fw-bolder fst-italic fs-6"><small><small><small> ({{percentage $numberAnswered $evaluationNumber}}%)</small></small></small></span>
+                            </div>
+                        </div> 
+                    {{end}}
+                {{end}}
+
+                <!-- Case free answer | input -->
+                {{if eq .Type "3"}}
+                    {{range .Answers}} <!-- keywords -->
+                        {{$a := .Label}}                         
+                        <div class="row">
+                            <div class="col-sm"> {{$a}} </div>
+                            <div class="col-sm text-end">
+                                {{$numberAnswered := 0}}
+                                {{range $evaluation}}
+                                    {{$answered := index .Answers $j}}
+                                    {{range $answered.Response}}
+                                        {{$words := mkSliceFromSpace .}}
+                                        {{if (isInclude $a $words)}}
+                                            {{$numberAnswered = sum 1 $numberAnswered}}
+                                        {{end}}
+                                    {{end}}
+                                {{end}}
+                                {{$numberAnswered}}/{{$evaluationNumber}} <span class="fw-bolder fst-italic fs-6"><small><small><small> ({{percentage $numberAnswered $evaluationNumber}}%)</small></small></small></span>
+                            </div>
+                        </div>
+                    {{end}}
+                {{end}}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm " id="chartGoogle{{$i}}"></div>
+        </div>
+
+        {{$i = inc $i}}
+        {{$j = inc $j}}
+{{end}}
+
+<!-- Footer survey -->
+<div class="row">
+    <div class="col-sm fst-italic fs-6"><small><small><small> This survey was created at {{$questionnaire.CreatedAt}} by {{$questionnaire.Author}} - Copyrights {{$questionnaire.Copyrights}}</small></small></small></div>
+</div>
+<div class="row">
+    <div class="col-sm fst-italic fs-6"><small><small><small> Last update: {{$questionnaire.UpdatedAt}} </small></small></small></div>
+</div>
+
+<div id="columnchart_values" style="width: 900px; height: 300px;"></div>
+
+<script>
+    const evaluations = {{.Data.Evaluations}},
+          questionnaire = {{.Data.Questionnaire.Questionnaire}}
+</script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="/assets/js/SurveyReport_UI.js"></script> 
+<script src="/assets/js/surveyReport.js"></script> 
+{{ template "footer" }}
+{{ end }}

@@ -1,0 +1,51 @@
+{{ define "surveyGenerator_GI" }}
+<h2>Create your own survey</h2>
+
+<div class="row my-3">
+    <div class="col-sm">
+        <input type="text" class="form-control" name="surveyTitle" id="surveyTitle" />
+        <label for="surveyTitle" class="form-label fw-bolder fst-italic fs-6" id="surveyTitleLabel"><small><small><small>survey title</small></small></small></label>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-sm">
+        <textarea class="form-control" name="surveyDescription" id="surveyDescription" rows="3"></textarea>
+        <label for="surveyDescription" class="form-label fw-bolder fst-italic fs-6"><small><small><small>survey description</small></small></small></label>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-sm">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="surveyAccessibility" id="surveyAccessibility1" value="public" checked />
+          <label class="form-check-label" for="surveyAccessibility1">Public</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="surveyAccessibility" id="surveyAccessibility2" value="restricted" />
+          <label class="form-check-label" for="surveyAccessibility2">Restricted</label>
+        </div>
+        <label for="surveyAccessibility" class="form-label fw-bolder fst-italic fs-6"><small><small><small>Accessibility</small></small></small></label>
+    </div>
+    <div class="col-sm">
+        <input type="text" class="form-control" name="surveyAuthor" id="surveyAuthor" />
+        <label for="surveyAuthor" class="form-label fw-bolder fst-italic fs-6"><small><small><small>author</small></small></small></label>
+    </div>
+    <div class="col-sm">
+        <input type="text" class="form-control" name="surveyCopyrights" id="surveyCopyrights" />
+        <label for="surveyCopyrights" class="form-label fw-bolder fst-italic fs-6"><small><small><small>Copyrights</small></small></small></label>
+    </div>
+    <div class="col-sm">
+        <input type="text" class="form-control" name="surveyTimelimit" id="surveyTimelimit" value=0 data-bs-toggle="tooltip" title="in minutes" />
+        <label for="surveyTimelimit" class="form-label fw-bolder fst-italic fs-6" data-bs-toggle="tooltip" title="in minutes"><small><small><small>Timelimit (0 for no limit)</small></small></small></label>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm text-end">
+        <button type="button" class="btn btn-primary mb-3" id="firstNext">Next</button>
+    </div>
+</div>
+    
+    
+    
+{{end}}

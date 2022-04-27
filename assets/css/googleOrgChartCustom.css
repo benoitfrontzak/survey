@@ -1,0 +1,24 @@
+/* Default cell */
+.chartCell{
+    color:white;
+    background: rgb(141,205,204);
+    background: linear-gradient(0deg, rgba(141,205,204,1) 0%, rgba(18,161,154,1) 100%); /*primary | secondary*/ 
+    border: 1px solid  #12a19a;
+
+}
+/* default link color */
+#orgTree_div .google-visualization-orgchart-linebottom {
+  border-bottom: 1px solid black;
+}
+  
+#orgTree_div .google-visualization-orgchart-lineleft {
+  border-left: 1px solid black;
+}
+
+#orgTree_div .google-visualization-orgchart-lineright {
+  border-right: 1px solid black;
+}
+
+#orgTree_div .google-visualization-orgchart-linetop {
+  border-top: 1px solid black;
+}

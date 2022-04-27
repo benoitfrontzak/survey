@@ -1,0 +1,40 @@
+{{ define "surveyGenerator" }}
+{{ template "header" }}
+{{ template "menu" .}}
+
+<!-- Mini navbar (active circle) -->
+<div class="mx-3 mt-3 row">
+    <div class="col-sm-12 text-end text-primary"> 
+        <span class="fw-lighter fst-italic fs-6"><small><small><small>
+          <span class="pointer step active" id="firstSpan" data-bs-toggle="tooltip" title="General Information"></span> 
+          <span class="pointer step" id="secondSpan" data-bs-toggle="tooltip" title="Questionnaire"></span> 
+          <span class="pointer step" id="thirdSpan" data-bs-toggle="tooltip" title="Report"></span> 
+        </small></small></small></span>
+    </div>
+</div>
+<!-- Mini navbar (active label) -->
+<div class="mx-3 row">
+  <div class="col-sm-12 text-end text-primary"> 
+      <span class="fw-lighter fst-italic fs-6"  id="firstSpanLabel"><small><small><small>General Information</small></small></small></span>
+      <span class="fw-lighter fst-italic fs-6 hidden"  id="secondSpanLabel"><small><small><small>Questionnaire</small></small></small></span>
+      <span class="fw-lighter fst-italic fs-6 hidden"  id="thirdSpanLabel"><small><small><small>Report</small></small></small></span>
+  </div>
+</div>
+
+<form action="/survey/generator" method="post" name="surveyGeneratorForm" id="surveyGeneratorForm">
+    <input type="hidden" name="totalQuestions" id="totalQuestions" value=1>  
+    <input type="hidden" name="totalRules" id="totalRules" value=1>  
+    <!-- Main navigation -->
+    <div class="tab-content" id="myTabContent">        
+        <div class="tab-pane fade show active" id="surveyGenerator_GI" role="tabpanel" aria-labelledby="surveyGenerator_GI"> {{ template "surveyGenerator_GI" }} </div> <!-- General Information -->        
+        <div class="tab-pane fade" id="surveyGenerator_Q" role="tabpanel" aria-labelledby="surveyGenerator_Q"> {{ template "surveyGenerator_Q" }} </div> <!-- Questionnaire -->        
+        <div class="tab-pane fade" id="surveyGenerator_R" role="tabpanel" aria-labelledby="surveyGenerator_R"> {{ template "surveyGenerator_R" }} </div> <!-- Report -->
+    </div>
+</form>
+
+<script src="/assets/js/SurveyGenerator_API.js"></script> 
+<script src="/assets/js/SurveyGenerator_UI.js"></script> 
+<script src="/assets/js/surveyGenerator.js"></script> 
+
+{{ template "footer" }}
+{{ end }}

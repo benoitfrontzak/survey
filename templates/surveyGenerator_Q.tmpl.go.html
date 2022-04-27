@@ -1,0 +1,35 @@
+{{ define "surveyGenerator_Q" }}
+<h2>Create as many question as you want</h2>
+<div class="row mb-3">
+    <div class="col-sm">
+        <input type="text" class="form-control" name="answersNumber" id="answersNumber" />
+        <span class="fw-bolder fst-italic fs-6" id="answersNumberLabel"><small><small><small>number of answers (or keywords)</small></small></small></span>
+    </div>
+    <div class="col-sm text-end">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="addQuestionBtn" data-bs-toggle="dropdown" aria-expanded="false">
+            Add
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="addQuestionBtn">
+            <li><a class="dropdown-item" href="#" id="addCheckbox"> Checkboxes</a></li>
+            <li><a class="dropdown-item" href="#" id="addRadio"> Radios</a></li>
+            <li><a class="dropdown-item" href="#" id="addInput"> Input</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm" id="formContener">
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm text-end">
+        <button type="button" class="btn btn-primary mb-3" id="firstPrevious">Previous</button>
+        <button type="button" class="btn btn-primary mb-3" id="secondNext">Next</button>
+    </div>
+</div>
+
+{{end}}

@@ -1,0 +1,113 @@
+{{ define "home" }}
+{{ template "header" }}
+{{ template "menu" .}}
+
+<div class="row mt-3">
+    <div class="col-sm"> You can create your own survey.</div>
+</div>
+<div class="row">
+    <div class="col-sm"> Each question will have a label and a helper with multiple choice answer.</div>
+</div>
+
+<div class="row my-3">
+    <div class="col-sm"> For example:</div>
+</div>
+
+<div class="row">
+    <div class="col-sm"> <span class="fst-italic fs-6"><small><small><small>label</small></small></small></span></div>
+    <div class="col-sm"> How friendly is this survey generator?</div>
+</div>
+<div class="row">
+    <div class="col-sm"> <span class="fst-italic fs-6"><small><small><small>answers</small></small></small></span></div>
+    <div class="col-sm"> 
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="demoOptions" id="demo1" value="option1">
+            <label class="form-check-label" for="demo1">bad</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="demoOptions" id="demo2" value="option2">
+            <label class="form-check-label" for="demo2">normal</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="demoOptions" id="demo3" value="option3" checked>
+            <label class="form-check-label" for="demo3">good</label>
+        </div>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-sm"> <span class="fst-italic fs-6"><small><small><small>helper</small></small></small></span></div>
+    <div class="col-sm"> 
+          <div class="fw-bolder fst-italic fs-6"><small><small><small>please answer honestly</small></small></small></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm"> The number of answer is flexible and you can choose between:</div>
+</div>
+<ul class="mb-3">
+    <li>
+        <div class="row">
+            <div class="col-sm-6">checkbox <span class="fs-6 fst-italic"> <small><small><small>(multiple choice)</small></small></small> </span></div>
+            <div class="col-sm-6 text-end">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                  <label class="form-check-label" for="inlineCheckbox1">bad</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                  <label class="form-check-label" for="inlineCheckbox2">normal</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+                  <label class="form-check-label" for="inlineCheckbox3">good</label>
+                </div>
+                <div class="fw-bolder fst-italic fs-6"><small><small><small>helper will be display here</small></small></small></div>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="row">
+            <div class="col-sm-6">radio <span class="fs-6 fst-italic"> <small><small><small>(single choice)</small></small></small> </span></div>
+            <div class="col-sm-6 text-end">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                  <label class="form-check-label" for="inlineRadio1">bad</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                  <label class="form-check-label" for="inlineRadio2">normal</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                  <label class="form-check-label" for="inlineRadio3">good</label>
+                </div>
+                <div class="fw-bolder fst-italic fs-6"><small><small><small>helper will be display here</small></small></small></div>
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="row">
+            <div class="col-sm-6">input <span class="fs-6 fst-italic"> <small><small><small>(free answer)</small></small></small> </span></div>
+            <div class="col-sm-6 text-end">
+                <input type="text" class="form-control" />
+                <span class="fw-bolder fst-italic fs-6"><small><small><small>helper will be display here</small></small></small></span>
+            </div>
+        </div>
+    </li>
+</ul>
+
+<div class="row">
+    <div class="col-sm"> When multiple answers is choosen you have to assign a score to each answer.</div>
+</div>
+<div class="row mb-3">
+    <div class="col-sm"> When free answer is choosen you have to assign a score to each keyword you expect.</div>
+</div>
+
+<div class="row my-3">
+    <div class="col-sm"> &nbsp;</div>
+</div>
+
+<script src="/assets/js/home.js"></script> 
+
+{{ template "footer" }}
+{{ end }}

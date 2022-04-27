@@ -1,0 +1,161 @@
+{{ define "surveyFeedback" }}
+{{ template "header" }}
+{{ template "menu" .}}
+
+{{$questionnaire := .Data.Questionnaire}}
+{{$evaluation := index .Data.Evaluations 0}}
+
+<div class="row my-3">
+    <div class="col-sm"><h2>{{$questionnaire.Title}}</h2></div>
+</div>
+
+<p class="justifyText fst-italic fs-6">{{$questionnaire.Description}}</p>
+
+<!-- Loop over all questions -->
+{{$i :=1}}
+{{$j :=0}}
+{{$score:=0}}
+{{$total:=0}}
+{{range $questionnaire.Questionnaire}}
+        <div class="row my-3">
+            <div class="col-sm"><h2>Question {{$i}}</h2></div>
+        </div>
+        <div class="row my-3">
+            <div class="col-sm justifyText fst-italic fs-6">{{.Story}}</div>
+        </div>
+        <div class="row my-3">
+            <div class="col-sm"><h4>{{.Label}}</h4></div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm">
+                <!-- Case checkboxes -->
+                {{if eq .Type "1"}}
+                    {{range .Answers}}
+                        {{$a := .Label}}
+                        {{$c := .Comment}}
+                        {{$s := .Score}}
+                        {{range (index $evaluation.Answers $j).Response}}
+                            {{$e := .}}
+                            {{if eq $a $e}}
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <div class="form-check">
+                                            <input class="form-check-input border border-success" type="checkbox" name="answerLabel{{$i}}" id="answerLabel{{$i}}" value="{{$a}}" checked disabled/>
+                                            <label class="form-check-label text-success fw-bold" for="answerLabel{{$i}}">{{$a}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm text-end">{{$c}}</div>
+                                </div>
+                                {{$score = sum $s $score}}
+                                {{if gt $s 0}}
+                                    {{$total = sum $s $total}}
+                                {{end}}
+                            {{else}}
+                                <div class="form-check">
+                                    <input class="form-check-input checkboxes" type="checkbox" name="answerLabel{{$i}}" id="answerLabel{{$i}}" value="{{$a}}" disabled />
+                                    <label class="form-check-label" for="answerLabel{{$i}}">{{$a}}</label>
+                                </div>
+                            {{end}}
+                        {{end}}                        
+                    {{end}}
+                {{end}}
+
+                <!-- Case radios -->
+                {{if eq .Type "2"}}
+                    {{range .Answers}}
+                        {{$a := .Label}}
+                        {{$c := .Comment}}
+                        {{$s := .Score}}
+                        {{range (index $evaluation.Answers $j).Response}}
+                            {{$e := .}}
+                            {{if eq $a $e}}
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <div class="form-check">
+                                            <input class="form-check-input border border-success" type="radio" name="answerLabel{{$i}}" id="answerLabel{{$i}}" value="{{$a}}" checked />
+                                            <label class="form-check-label text-success fw-bold" for="answerLabel{{$i}}">{{$a}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm text-end">{{$c}}</div>
+                                </div>
+                                {{$score = sum $s $score}}
+                                {{if gt $s 0}}
+                                    {{$total = sum $s $total}}
+                                {{end}}
+                            {{else}}
+                                <div class="form-check">
+                                    <input class="form-check-input radios" type="radio" name="answerLabel{{$i}}" id="answerLabel{{$i}}" value="{{$a}}" disabled />
+                                    <label class="form-check-label" for="answerLabel{{$i}}">{{$a}}</label>
+                                </div> 
+                            {{end}}
+                        {{end}}
+                        
+                    {{end}}
+                {{end}}
+
+                <!-- Case free answer | input -->
+                {{if eq .Type "3"}}
+                    {{$answered := index (index $evaluation.Answers $j).Response 0}}
+                    {{$words := mkSliceFromSpace $answered}}
+                    {{range .Answers}} <!-- keywords -->
+                        {{$a := .Label}} 
+                        {{$c := .Comment}}
+                        {{$s := .Score}}
+                        {{if (isInclude $a $words)}}
+                            <div class="row">
+                                <div class="col-sm">
+                                    <div class="form-check">
+                                        <input class="form-check-input border border-success" type="checkbox" name="answerLabel{{$i}}" id="answerLabel{{$i}}" value="{{$a}}" checked />
+                                        <label class="form-check-label text-success fw-bold" for="answerLabel{{$i}}">{{$a}}</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm text-end">{{$c}}</div>
+                            </div>
+                            {{$score = sum $s $score}}
+                            {{if gt $s 0}}
+                                {{$total = sum $s $total}}
+                            {{end}}
+                        {{end}}
+                    {{end}}
+                    <input type="text" class="form-control inputs" name="freeanswerLabel{{$i}}" id="freeanswerLabel{{$i}}" value="{{$answered}}" disabled />
+                {{end}}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm fw-bolder fst-italic fs-6"><small><small><small>{{.Helper}}</small></small></small></div>
+        </div>
+
+        {{$i = inc $i}}
+        {{$j = inc $j}}
+{{end}}
+
+<div class="row mt-3"> <div class="col-sm"><h2>Feedback</h2></div> </div>
+<div class="row"> <div class="col-sm text-end"> total score: {{$score}} / {{$total}} </div> </div>
+<div class="row mb-3"> <div class="col-sm text-end"> total percentage: {{percentage $score $total}} % </div> </div>
+
+{{range $questionnaire.Blueprint}}
+    {{$v := atoi .TriggerValue}}
+    {{$o :=.TriggerOperator}}
+    {{$c :=.Comment}}
+    {{if eq $o "lower than"}}
+        {{if lt (percentage $score $total) $v}} <p class="justifyText fst-italic fs-6 mb-3">{{$c}}</p> {{end}}
+    {{else if eq $o "greater than"}}
+        {{if gt (percentage $score $total) $v}} <p class="justifyText fst-italic fs-6 mb-3">{{$c}}</p> {{end}}
+    {{else}}
+        {{if eq (percentage $score $total) $v}} <p class="justifyText fst-italic fs-6 mb-3">{{$c}}</p> {{end}}
+    {{end}}
+{{end}}
+<!-- Footer survey -->
+<div class="row">
+    <div class="col-sm fst-italic fs-6"><small><small><small> This survey was created at {{$questionnaire.CreatedAt}} by {{$questionnaire.Author}} - Copyrights {{$questionnaire.Copyrights}}</small></small></small></div>
+</div>
+<div class="row">
+    <div class="col-sm fst-italic fs-6"><small><small><small> Last update: {{$questionnaire.UpdatedAt}} </small></small></small></div>
+</div>
+
+
+
+{{ template "footer" }}
+{{ end }}
