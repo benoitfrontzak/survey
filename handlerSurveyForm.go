@@ -50,6 +50,7 @@ func getSurvey(w http.ResponseWriter, r *http.Request) {
 	if err := tmpl.ExecuteTemplate(w, "survey", td); err != nil {
 		log.Printf("%v", err)
 	}
+
 }
 
 func postSurvey(w http.ResponseWriter, r *http.Request) {

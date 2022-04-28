@@ -32,7 +32,10 @@ func DSN(NameDB, dbuser, dbpass, dburl, dbport string) (dsn string, dsnErr error
 	}
 	if dbuser != "" {
 		// mongodb://dbuser:dbpass@dburl:dbport/?authSource=NameDB&authMechanism=SCRAM-SHA-256&ssl=false
-		return fmt.Sprintf("mongodb://%s:%s@%s:%s/?authSource=%s&authMechanism=SCRAM-SHA-256&ssl=false", dbuser, dbpass, dburl, dbport, NameDB), nil
+		// return fmt.Sprintf("mongodb://%s:%s@%s:%s/?authSource=%s&authMechanism=SCRAM-SHA-256&ssl=false", dbuser, dbpass, dburl, dbport, NameDB), nil
+
+		// mongodb+srv://<username>:<password>@bencluster.d1xfu.gcp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+		return fmt.Sprintf("mongodb+srv://%s:%s@%s/%s?retryWrites=true&w=majority", dbuser, dbpass, dburl, NameDB), nil
 	}
 	badDSN := errors.New("the DSN configuration is incomplete")
 	return "", badDSN
@@ -49,7 +52,7 @@ func Connect(uri, NameDB, dbuser, dbpass string) (client *mongo.Client, ctx cont
 	if dbuser != "" {
 		// To configure auth via URI with SCRAM-SHA-256 mechanism
 		credential := options.Credential{
-			AuthMechanism:           "SCRAM-SHA-256",     //SCRAM-SHA-1|SCRAM-SHA-256|MONGODB-X509|MONGODB-AWS|GSSAPI(Kerberos)|PLAIN (LDAP SASL)
+			AuthMechanism:           "SCRAM-SHA-1",       //SCRAM-SHA-1|SCRAM-SHA-256|MONGODB-X509|MONGODB-AWS|GSSAPI(Kerberos)|PLAIN (LDAP SASL)
 			AuthMechanismProperties: map[string]string{}, //SERVICE_NAME|CANONICALIZE_HOST_NAME|SERVICE_REALM|AWS_SESSION_TOKEN
 			AuthSource:              NameDB,
 			Username:                dbuser,
