@@ -12,12 +12,12 @@ func main() {
 
 	// If .env exist then we got a mongoDB conf
 	if env {
-		httpPort = getEnv("HTTPPORT", "8888")
+		httpPort = getEnv("PORT", "8080")
 		if pingDB := pingMongoDB(); pingDB != nil {
 			log.Fatalf(pingDB.Error())
 		}
 	} else {
-		httpPort = "8888"
+		httpPort = "8080"
 	}
 
 	// Start http server
