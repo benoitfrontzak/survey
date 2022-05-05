@@ -54,6 +54,8 @@ type Report struct {
 }
 
 type TemplateData struct {
+	Login   string
+	Avatar  string
 	Surveys []TemplateSurvey
 	Data    interface{}
 }

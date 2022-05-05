@@ -1,6 +1,9 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+	"surveyGenerator/web"
+)
 
 // Create handlers
 func multiplexer() http.Handler {
@@ -11,7 +14,9 @@ func multiplexer() http.Handler {
 	fs := http.FileServer(http.Dir("." + staticDir))
 	mux.Handle(staticDir, http.StripPrefix(staticDir, fs))
 
-	mux.Handle("/", home)                            // [GET] Home
+	mux.Handle("/", login)                           // [GET|POST] Login
+	mux.Handle("/callback", callbackGoogle)          // [GET] Login
+	mux.Handle("/home", web.AuthMiddleware(home))    // [GET] Home
 	mux.Handle("/survey/generator", surveyGenerator) // [GET|POST] Generate Survey form
 	mux.Handle("/survey/research/", surveyForm)      // [GET|POST] Survey form
 	mux.Handle("/survey/feedback/", surveyFeedback)  // [GET] Survey feedback

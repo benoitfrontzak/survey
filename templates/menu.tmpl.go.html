@@ -1,5 +1,6 @@
 {{ define "menu" }}
 
+{{if ne .Login ""}}
 <div class="nav">
 
   <nav class="m-3 p-3 navbar navbar-expand-sm navbar-light w-100">
@@ -26,7 +27,7 @@
                   {{range .Surveys}}
                     <li><a class="dropdown-item" href="/survey/research/{{ rowID .ID}}">{{.Title}}</a></li>
                   {{end}}      
-            </ul>
+              </ul>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -41,6 +42,21 @@
           {{end}}
         </ul>
 
+        <form class="d-flex">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{.Avatar}}" alt="avatar" width="30px" height="30px" /> {{.Login}}
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown"> 
+                    <li><a class="dropdown-item" href="#">Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+          
+         
+        </form>
+
       </div>
 
     </div>
@@ -48,4 +64,6 @@
   </nav>
 
 </div>
+{{ end }}
+
 {{ end }}
