@@ -18,7 +18,8 @@ var (
 func init() {
 	googleOauthConfig = &oauth2.Config{
 
-		RedirectURL:  "http://localhost:8080/callback",
+		// RedirectURL:  "http://localhost:8080/callback",
+		RedirectURL:  "https://hrtools.herokuapp.com/callback",
 		ClientID:     "11547521023.apps.googleusercontent.com",
 		ClientSecret: "Qf_vPolsVLSQRitulNOUspAF",
 		Scopes:       []string{"https://www.googleapis.com/auth/userinfo.email"},
@@ -52,9 +53,7 @@ func getLogin(w http.ResponseWriter, r *http.Request) {
 	log.Printf("login page successfully query at %s", t.Format("2006-01-02 15:04:05"))
 	url := googleOauthConfig.AuthCodeURL(oauthStateString)
 	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
-	// if err := tmpl.ExecuteTemplate(w, "login", nil); err != nil {
-	// 	log.Printf("%v", err)
-	// }
+
 }
 
 func postLogin(w http.ResponseWriter, r *http.Request) {
