@@ -6,6 +6,8 @@
 {{$evaluation := .Data.Evaluations}}
 {{$evaluationNumber := len .Data.Evaluations}}
 
+<div class="html-content">
+
 <div class="row my-3">
     <div class="col-sm"><h2>{{$questionnaire.Title}}</h2></div>
 </div>
@@ -129,13 +131,19 @@
     <div class="col-sm fst-italic fs-6"><small><small><small> Last update: {{$questionnaire.UpdatedAt}} </small></small></small></div>
 </div>
 
-<div id="columnchart_values" style="width: 900px; height: 300px;"></div>
+<div class="row">
+    <div class="col-sm text-end"><i class="bi-printer" id="printReport"></i></div>
+</div>
 
 <script>
     const evaluations = {{.Data.Evaluations}},
           questionnaire = {{.Data.Questionnaire.Questionnaire}}
 </script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+
 <script src="/assets/js/SurveyReport_UI.js"></script> 
 <script src="/assets/js/surveyReport.js"></script> 
 {{ template "footer" }}

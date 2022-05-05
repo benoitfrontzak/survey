@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"surveyGenerator/web"
 	"time"
 )
 
@@ -29,8 +30,16 @@ var surveyGenerator = http.HandlerFunc(func(w http.ResponseWriter, r *http.Reque
 func getGenerator(w http.ResponseWriter, r *http.Request) {
 	t := time.Now()
 
+	// Retrieve the claims from the request (bearer)
+	claims, err := web.ExtractToken(r, w)
+	if err != nil {
+		log.Println(err)
+	}
+
 	// template data
 	td := TemplateData{
+		Login:   claims.Login,
+		Avatar:  claims.Avatar,
 		Surveys: getTemplateSurveys(),
 		Data:    Questionnaire{},
 	}

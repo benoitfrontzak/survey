@@ -1,0 +1,65 @@
+{{define "surveyPDF"}}
+{{ template "header" }}
+{{ template "menu" .}}
+
+<div class="html-content">
+
+    <div class="row my-3"> <div class="col-sm"><h2>{{.Data.Title}}</h2></div> </div>
+
+    <p class="justifyText fst-italic fs-6">{{.Data.Description}}</p>
+
+    <!-- Loop over all questions -->
+    {{$i :=1}}
+    {{range .Data.Questionnaire}}
+        <div class="row my-3"> <div class="col-sm"><h2>Question {{$i}}</h2></div> </div>
+        <div class="row my-3"> <div class="col-sm justifyText fst-italic fs-6">{{.Story}}</div> </div>
+        <div class="row my-3"> <div class="col-sm"><h4>{{.Label}}</h4></div> </div>
+        <div class="row mt-3">
+            <div class="col-sm">
+                <!-- Case checkboxes -->
+                {{if eq .Type "1"}}
+                    {{range .Answers}}
+                        <div class="form-check">
+                            <input class="form-check-input checkboxes" type="checkbox" name="answerLabel{{$i}}" id="answerLabel{{$i}}" value="{{.Label}}" />
+                            <label class="form-check-label" for="answerLabel{{$i}}">{{.Label}}</label>
+                        </div>
+                    {{end}}
+                {{end}}
+                <!-- Case radios -->
+                {{if eq .Type "2"}}
+                    {{range .Answers}}
+                        <div class="form-check">
+                            <input class="form-check-input radios" type="radio" name="answerLabel{{$i}}" id="answerLabel{{$i}}" value="{{.Label}}" />
+                            <label class="form-check-label" for="answerLabel{{$i}}">{{.Label}}</label>
+                        </div> 
+                    {{end}}
+                {{end}}
+                <!-- Case free answer | input -->
+                {{if eq .Type "3"}}
+                    <input type="text" class="form-control inputs" name="freeanswerLabel{{$i}}" id="freeanswerLabel{{$i}}" />
+                {{end}}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm fw-bolder fst-italic fs-6"><small><small><small>{{.Helper}}</small></small></small></div>
+        </div>
+        {{$i = inc $i}}
+    {{end}}
+
+    <!-- Footer survey -->
+    <div class="row">
+        <div class="col-sm fst-italic fs-6"><small><small><small> This survey was created at {{.Data.CreatedAt}} by {{.Data.Author}} - Copyrights {{.Data.Copyrights}}</small></small></small></div>
+    </div>
+    <div class="row">
+        <div class="col-sm fst-italic fs-6"><small><small><small> Last update: {{.Data.UpdatedAt}} </small></small></small></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+
+
+<script src="/assets/js/surveyPDF.js"></script> 
+
+{{ template "footer" }}
+{{end}}

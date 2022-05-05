@@ -63,20 +63,8 @@ for (let i = 0; i < questionnaire.length; i++) {
     arrayNumber++
 }
 
-
-    
-
-    // google.charts.setOnLoadCallback(
-    //     function() {
-    //         UI.drawChart(myData, title, targetID)
-    //     }
-    //   )
-    // let myData = [
-    //     ["Element", "Density", { role: "style" } ],
-    //     ["Copper", 8.94, "#b87333"],
-    //     ["Silver", 10.49, "silver"],
-    //     ["Gold", 19.30, "gold"],
-    //     ["Platinum", 21.45, "color: #e5e4e2"]
-    //   ]
-    // let title = "Density of Precious Metals, in g/cm^3"
-    // let targetID = "columnchart_values"
+window.addEventListener('DOMContentLoaded', (event) => { 
+    $('#printReport').bind('click', () => {
+        UI.CreatePDFfromHTML()
+    })    
+})

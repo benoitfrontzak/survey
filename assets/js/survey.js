@@ -1,7 +1,6 @@
 const UI = new Survey_UI()
 
 window.addEventListener('DOMContentLoaded', (event) => { 
-    console.log('ok');
      // When save button (submit) is clicked
      $('#save').bind('click', (e) => {
         e.preventDefault()
@@ -12,7 +11,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
               formIsValid = UI.validateSurveyForm(classnameList)    
         if(formIsValid == true){
             form.submit()
-        }
- 
+        } 
     })
 })
