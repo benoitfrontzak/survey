@@ -30,6 +30,7 @@ var authorizedEmails = []string{
 	"benoit.frontzak@gmail.com",
 	"carynfang@gmail.com",
 	"ingsibu@gmail.com",
+	"cxyp1@gmail.com",
 }
 
 var callbackGoogle = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
